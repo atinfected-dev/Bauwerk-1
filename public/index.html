@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BauWerk Elektro</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="auth-loading">
+  <section id="login" class="login-screen" hidden>
+    <form id="loginForm" class="card login-card">
+      <h1>BauWerk</h1>
+      <p>Elektrohandwerk digital organisieren</p>
+
+      <label>
+        E-Mail
+        <input id="email" type="email" value="admin@ertz-demo.de" autocomplete="username" required>
+      </label>
+
+      <label>
+        Passwort
+        <input id="password" type="password" value="demo1234" autocomplete="current-password" required>
+      </label>
+
+      <button type="submit">Einloggen</button>
+      <div id="loginError" class="error" role="alert"></div>
+    </form>
+  </section>
+
+  <div id="app" hidden>
+    <header>
+      <div>
+        <strong>BauWerk</strong>
+        <small id="company"></small>
+      </div>
+
+      <nav aria-label="Hauptnavigation">
+        <button type="button" data-view="dashboard">Dashboard</button>
+        <button type="button" data-view="customers">Kunden</button>
+        <button type="button" data-view="projects">Baustellen</button>
+      </nav>
+
+      <div class="user-area">
+        <span id="user"></span>
+        <button type="button" id="logout" class="secondary">Abmelden</button>
+      </div>
+    </header>
+
+    <main id="content"></main>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

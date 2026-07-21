@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  OFFICE
+  PROJECT_MANAGER
+  TECHNICIAN
+}
+
+enum ProjectStatus {
+  PLANNED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  BILLED
+}
+
+model Company {
+  id        String     @id @default(uuid())
+  name      String
+  email     String?
+  users     User[]
+  customers Customer[]
+  projects  Project[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model User {
+  id           String   @id @default(uuid())
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  email        String
+  passwordHash String
+  firstName    String
+  lastName     String
+  role         Role     @default(TECHNICIAN)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([companyId, email])
+  @@index([companyId])
+}
+
+model Customer {
+  id             String   @id @default(uuid())
+  companyId      String
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customerNumber String
+  name           String
+  contactName    String?
+  email          String?
+  phone          String?
+  billingAddress String?
+  projects       Project[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([companyId, customerNumber])
+  @@index([companyId])
+}
+
+model Project {
+  id            String        @id @default(uuid())
+  companyId     String
+  company       Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  projectNumber String
+  name          String
+  address       String
+  description   String?
+  status        ProjectStatus @default(PLANNED)
+  startDate     DateTime?
+  endDate       DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([companyId, projectNumber])
+  @@index([companyId])
+  @@index([customerId])
+}
