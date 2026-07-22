@@ -1,6 +1,6 @@
 {
-  "name": "bauwerk-elektro-v0.4",
-  "version": "0.4.0",
+  "name": "bauwerk-elektro-v0.5",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "@types/multer": "^2.2.0",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -20,6 +21,7 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^2.2.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

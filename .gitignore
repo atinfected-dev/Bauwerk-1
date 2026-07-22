@@ -41,3 +41,5 @@ coverage/
 
 # TypeScript
 *.tsbuildinfo
+# Uploaded project documents
+uploads/

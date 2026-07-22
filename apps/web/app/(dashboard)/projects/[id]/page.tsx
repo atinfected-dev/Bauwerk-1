@@ -14,6 +14,7 @@ import {
   MapPin,
   NotebookText,
   ReceiptText,
+  ListChecks,
   Ruler,
   UserRound,
 } from 'lucide-react';
@@ -22,13 +23,14 @@ import { ProjectStatusBadge } from '@/components/projects/project-status-badge';
 import { getProject } from '@/services/projects';
 
 const modules = [
-  { label: 'Bautagebuch', icon: NotebookText, description: 'Tagesberichte und Vorkommnisse' },
-  { label: 'Zeiten', icon: Clock3, description: 'Arbeits- und Einsatzzeiten' },
-  { label: 'Material', icon: Boxes, description: 'Verbrauch und Bestellungen' },
-  { label: 'Aufmaß', icon: Ruler, description: 'Positionen und Mengen' },
-  { label: 'Fotos', icon: Images, description: 'Baustellendokumentation' },
-  { label: 'Dokumente', icon: FileText, description: 'Pläne, Protokolle und Dateien' },
-  { label: 'Rechnungen', icon: ReceiptText, description: 'Abschläge und Schlussrechnung' },
+  { label: 'Bautagebuch', icon: NotebookText, description: 'Tagesberichte und Vorkommnisse', href: 'diary' },
+  { label: 'Zeiten', icon: Clock3, description: 'Arbeits- und Einsatzzeiten', href: 'time' },
+  { label: 'Aufgaben', icon: ListChecks, description: 'Kanban, Checklisten und Zuständigkeiten', href: 'tasks' },
+  { label: 'Material', icon: Boxes, description: 'Verbrauch und Lagerbestand', href: 'material' },
+  { label: 'Aufmaß', icon: Ruler, description: 'Positionen und Mengen', href: null },
+  { label: 'Fotos', icon: Images, description: 'Baustellendokumentation', href: null },
+  { label: 'Dokumente', icon: FileText, description: 'Pläne, Protokolle und Dateien', href: 'documents' },
+  { label: 'Rechnungen', icon: ReceiptText, description: 'Abschläge und Schlussrechnung', href: null },
 ];
 
 function formatDate(value: string | null): string {
@@ -151,9 +153,11 @@ export default function ProjectDetailPage() {
           {modules.map((module) => {
             const Icon = module.icon;
             return (
-              <div
+              <Link
                 key={module.label}
-                className="rounded-2xl border bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                href={module.href ? `/projects/${project.id}/${module.href}` : '#'}
+                aria-disabled={!module.href}
+                className={`rounded-2xl border bg-white p-5 shadow-sm transition ${module.href ? 'hover:-translate-y-0.5 hover:shadow-md' : 'cursor-default opacity-70'}`}
               >
                 <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
                   <Icon className="size-5" />
@@ -163,9 +167,9 @@ export default function ProjectDetailPage() {
                   {module.description}
                 </p>
                 <p className="mt-4 text-xs font-medium uppercase tracking-wide text-slate-400">
-                  Folgt im nächsten Sprint
+                  {module.href ? 'Öffnen' : 'Folgt in einem späteren Sprint'}
                 </p>
-              </div>
+              </Link>
             );
           })}
         </div>
